@@ -16,7 +16,7 @@ export_env_dir() {
 
 export_env_dir $3
 
-SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed"
+SLACK_MESSAGE="*$APP_NAME* was deployed 🚀"
 
 if [[ -z "${DEPLOY_NOTIFY_GITHUB_AUTH_TOKEN}" || -z "${DEPLOY_NOTIFY_GITHUB_ORG}" || -z "${DEPLOY_NOTIFY_GITHUB_PROJECT}" ]]; then
   # Not loading Github Data
@@ -31,7 +31,7 @@ else
   AUTHOR_EMAIL=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['commit']['author']['email'])"  || echo '')
   COMMIT_MESSAGE=$((echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['commit']['message'])" || echo '') | head -n 1)
   COMMIT_URL=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['html_url'])" || echo 'Can not reach Github...')
-  SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed\n>$AUTHOR_NAME - $AUTHOR_EMAIL\n\n\`\`\`\n$COMMIT_MESSAGE\n\`\`\`\n$COMMIT_URL"
+  SLACK_MESSAGE="*$APP_NAME* was deployed\n>$AUTHOR_NAME - $AUTHOR_EMAIL\n\n\`\`\`\n$COMMIT_MESSAGE\n\`\`\`\n$COMMIT_URL"
 fi
 
 echo "-----> Notifying Slack that the deploy is complete"
